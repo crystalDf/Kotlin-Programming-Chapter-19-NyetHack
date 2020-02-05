@@ -16,21 +16,31 @@ var remainingQuantityOfDragonBreathInPints = (PINTS_ONE_GALLON * CASK).toInt()
 
 val patronList = mutableListOf("Eli", "Mordoc", "Sophie")
 val lastName = listOf("Ironfoot", "Fernsworth", "Baggins")
-val uniquePatrons = mutableSetOf<String>()
+val uniquePatrons: MutableSet<String> = generateSequence {
+    val first = patronList.random()
+    val last = lastName.random()
+    "$first $last"
+}.distinct().take(9).toMutableSet()
+
 val menuList = File("data/tavern-menu-items.txt").readText().split("\n")
 
-val patronGold = mutableMapOf<String, Double>()
+val patronGold: MutableMap<String, Double> =
+//    uniquePatrons.zip(generateSequence { 6.0 }.take(uniquePatrons.size).toList()).toMap().toMutableMap()
+    uniquePatrons.zip(uniquePatrons.map { 6.0 }).toMap().toMutableMap()
 
 fun main(args: Array<String>) {
 
     println("Number of pints left in the cask: $remainingQuantityOfDragonBreathInPints")
 
+//    println(patronList)
+//    patronList.remove("Eli")
+//    patronList.add("Alex")
+//    patronList.add(0, "Alex")
+//    patronList[0] = "Alexis"
     println(patronList)
-    patronList.remove("Eli")
-    patronList.add("Alex")
-    patronList.add(0, "Alex")
-    patronList[0] = "Alexis"
-    println(patronList)
+    println(lastName)
+    println(uniquePatrons)
+    println(patronGold)
 
     if (patronList.contains("Eli")) {
         println("The tavern master says: Eli's in the back playing cards.")
@@ -61,16 +71,16 @@ fun main(args: Array<String>) {
         println("$index : $data")
     }
 
-    repeat(10) {
-        val first = patronList.random()
-        val last = lastName.random()
-        val name = "$first $last"
-        uniquePatrons.add(name)
-    }
+//    repeat(10) {
+//        val first = patronList.random()
+//        val last = lastName.random()
+//        val name = "$first $last"
+//        uniquePatrons.add(name)
+//    }
 
-    uniquePatrons.forEach { name ->
-        patronGold[name] = 6.0
-    }
+//    uniquePatrons.forEach { name ->
+//        patronGold[name] = 6.0
+//    }
 
     displayPatronBalances()
 
